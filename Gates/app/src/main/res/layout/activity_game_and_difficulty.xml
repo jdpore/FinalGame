@@ -5,44 +5,89 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".GameAndDifficulty">
+        tools:context=".activity_game_and_difficulty">
 
     <RelativeLayout android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/buttons"
-    >
+                    android:id="@+id/buttons_game">
+
         <Button
-                android:text="Slide"
+                 android:text="@string/lesson"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="150dp"
-                android:id="@+id/game1"
-                android:onClick="game1"/>
+                android:id="@+id/lesson"
+                android:onClick="setLesson"/>
+
         <Button
-                android:text="Slide"
+                android:text="@string/game1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="250dp"
-                android:id="@+id/game2"
-                android:onClick="game2"/>
+                android:id="@+id/game1"
+                android:onClick="setGame1"/>
+
         <Button
-                android:text="Slide"
+                android:text="@string/game2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="350dp"
-                android:id="@+id/game3"
-                android:onClick="game3"/>
+                android:id="@+id/game2"
+                android:onClick="setGame2"/>
+
         <Button
-                android:text="Slide"
+                android:text="@string/game3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="450dp"
-                android:id="@+id/intro"
-                android:onClick="game4"/>
+                android:id="@+id/game3"
+                android:onClick="setGame3"/>
+    </RelativeLayout>
+
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/buttons_difficulty">
+
+        <TextView
+            android:text="@string/lesson"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:textSize="32sp"
+            android:id="@+id/game_name"/>
+
+        <Button
+            android:text="@string/novice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="250dp"
+            android:id="@+id/novice"
+            android:onClick="setNovice"/>
+
+        <Button
+            android:text="@string/intermediate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="350dp"
+            android:id="@+id/intermediate"
+            android:onClick="setIntermediate"/>
+
+        <Button
+            android:text="@string/advanced"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="450dp"
+            android:id="@+id/advance"
+            android:onClick="setAdvance"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
