@@ -5,6 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
+        android:id="@+id/loading"
 >
     <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -12,4 +13,10 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:id="@+id/progressBar"/>
+    <pl.droidsonroids.gif.GifImageView
+            android:layout_centerInParent="true"
+            android:id="@+id/gifImageView"
+            android:layout_height="300dp"
+            android:layout_width="300dp"
+            android:src="@drawable/gates"/>
 </RelativeLayout>
