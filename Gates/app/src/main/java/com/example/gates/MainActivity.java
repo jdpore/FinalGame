@@ -19,6 +19,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, activity_game_and_difficulty.class));
                 finish();
             }
-        }, 4000);
+        }, 2000);
     }
 }

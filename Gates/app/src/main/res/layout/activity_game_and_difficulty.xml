@@ -48,7 +48,7 @@
                 android:onClick="setGame3"/>
     </RelativeLayout>
 
-    <RelativeLayout android:layout_width="match_parent"
+    <!--<RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/buttons_difficulty">
 
@@ -88,6 +88,6 @@
             android:id="@+id/advance"
             android:onClick="setAdvance"/>
 
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </RelativeLayout>
