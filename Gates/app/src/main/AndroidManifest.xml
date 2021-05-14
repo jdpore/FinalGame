@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gates">
-        <activity android:name=".activity_game_proper"></activity>
-        <activity android:name=".activity_game_and_difficulty"></activity>
+        <activity android:name=".activity_game_proper" />
+        <activity android:name=".activity_game_and_difficulty" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

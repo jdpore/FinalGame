@@ -28,64 +28,68 @@ public class activity_game_and_difficulty extends AppCompatActivity {
         advance = findViewById(R.id.advance);*/
 
         buttonsGame = findViewById(R.id.buttons_game);
-        buttonsDifficulty = findViewById(R.id.buttons_difficulty);
+        //buttonsDifficulty = findViewById(R.id.buttons_difficulty);
 
-        buttonsDifficulty.setVisibility(View.GONE);
+        //buttonsDifficulty.setVisibility(View.GONE);
     }
 
     public void setLesson(View view) {
         game = 0;
-        anim(buttonsGame, buttonsDifficulty);
+        anim(buttonsGame);
+        nextActivity();
     }
 
     public void setGame1(View view) {
         game = 1;
-        anim(buttonsGame, buttonsDifficulty);
+        anim(buttonsGame);
+        nextActivity();
     }
 
     public void setGame2(View view) {
         game = 2;
-        anim(buttonsGame, buttonsDifficulty);
+        anim(buttonsGame);
+        nextActivity();
     }
 
     public void setGame3(View view) {
         game = 3;
-        anim(buttonsGame, buttonsDifficulty);
+        anim(buttonsGame);
+        nextActivity();
     }
 
     public void setNovice(View view) {
         difficulty = 0;
-        anim(buttonsDifficulty, buttonsGame);
+        //anim(buttonsDifficulty, buttonsGame);
         nextActivity();
     }
 
     public void setIntermediate(View view) {
         difficulty = 1;
-        anim(buttonsDifficulty, buttonsGame);
+        //anim(buttonsDifficulty, buttonsGame);
         nextActivity();
     }
 
     public void setAdvance(View view) {
         difficulty = 2;
-        anim(buttonsDifficulty, buttonsGame);
+        //anim(buttonsDifficulty, buttonsGame);
         nextActivity();
     }
 
-    public void anim(RelativeLayout out, RelativeLayout in){
+    public void anim(RelativeLayout out){
         Animation animOut = AnimationUtils.loadAnimation(this, R.anim.slide_out);
-        Animation animIn = AnimationUtils.loadAnimation(this, R.anim.slide_in);
+        //Animation animIn = AnimationUtils.loadAnimation(this, R.anim.slide_in);
 
         out.startAnimation(animOut);
-        in.startAnimation(animIn);
+        //in.startAnimation(animIn);
 
-        out.setVisibility(View.GONE);
-        in.setVisibility(View.VISIBLE);
+        //out.setVisibility(View.GONE);
+        //in.setVisibility(View.VISIBLE);
     }
 
     public void nextActivity() {
         Intent intent = new Intent(this, activity_game_proper.class);
         intent.putExtra("game", game);
-        intent.putExtra("difficulty", difficulty);
+        //intent.putExtra("difficulty", difficulty);
         startActivity(intent);
     }
 
