@@ -1,6 +1,7 @@
 package com.example.gates;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -89,8 +90,14 @@ public class activity_game_and_difficulty extends AppCompatActivity {
     public void nextActivity() {
         Intent intent = new Intent(this, activity_game_proper.class);
         intent.putExtra("game", game);
-        //intent.putExtra("difficulty", difficulty);
-        startActivity(intent);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //intent.putExtra("difficulty", difficulty);
+                startActivity(intent);
+            }
+        }, 200);
     }
 
 }

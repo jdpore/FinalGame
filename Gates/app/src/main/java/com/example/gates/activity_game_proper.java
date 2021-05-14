@@ -1,10 +1,13 @@
 package com.example.gates;
 
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import androidx.annotation.Dimension;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -24,7 +27,15 @@ public class activity_game_proper extends AppCompatActivity {
         setContentView(R.layout.activity_game_proper);
 
         title = findViewById(R.id.title);
+        round = findViewById(R.id.round);
         popUp = findViewById(R.id.pop_up);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int width = displayMetrics.widthPixels;
+
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .14f));
+        round.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .08f));
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -44,7 +55,6 @@ public class activity_game_proper extends AppCompatActivity {
 
     public void gridInit() {
         columnOne = findViewById(R.id.column_one);
-        round = findViewById(R.id.round);
         for(int i = 0; i < 7; i++) {
             Button btn = new Button(this);
             btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,

@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1"/>
+        app:layout_constraintVertical_bias="0.05"/>
 
     <TextView
         android:id="@+id/round"
@@ -60,6 +60,20 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/given"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="courier"
+        android:text="Information"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@id/game_grid"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.05"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pop_up"
         android:layout_width="match_parent"
@@ -69,14 +83,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="courier"
             android:text="POP-UP"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="50sp"
-            android:fontFamily="courier"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
