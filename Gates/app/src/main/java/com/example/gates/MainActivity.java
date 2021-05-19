@@ -3,8 +3,6 @@ package com.example.gates;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(MainActivity.this, activity_game_and_difficulty.class));
+                startActivity(new Intent(MainActivity.this, activity_games.class));
                 finish();
             }
         }, 3000);

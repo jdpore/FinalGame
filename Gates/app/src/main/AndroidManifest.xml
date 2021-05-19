@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gates">
         <activity android:name=".activity_game_proper" />
-        <activity android:name=".activity_game_and_difficulty" />
+        <activity android:name=".activity_games" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

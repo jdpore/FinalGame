@@ -9,17 +9,18 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class activity_game_and_difficulty extends AppCompatActivity {
+public class activity_games extends AppCompatActivity {
     Button lesson, game1, game2, game3,
             novice, intermediate, advance;
-    RelativeLayout buttonsGame, buttonsDifficulty;
+    ConstraintLayout buttonsGame, buttonsDifficulty;
     int game, difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_and_difficulty);
+        setContentView(R.layout.activity_games);
         /*lesson = findViewById(R.id.lesson);
         game1 = findViewById(R.id.game1);
         game2 = findViewById(R.id.game2);
@@ -28,7 +29,7 @@ public class activity_game_and_difficulty extends AppCompatActivity {
         intermediate = findViewById(R.id.intermediate);
         advance = findViewById(R.id.advance);*/
 
-        buttonsGame = findViewById(R.id.buttons_game);
+        buttonsGame = findViewById(R.id.games_layout);
         //buttonsDifficulty = findViewById(R.id.buttons_difficulty);
 
         //buttonsDifficulty.setVisibility(View.GONE);
@@ -76,7 +77,7 @@ public class activity_game_and_difficulty extends AppCompatActivity {
         nextActivity();
     }
 
-    public void anim(RelativeLayout out){
+    public void anim(ConstraintLayout out){
         Animation animOut = AnimationUtils.loadAnimation(this, R.anim.slide_out);
         //Animation animIn = AnimationUtils.loadAnimation(this, R.anim.slide_in);
 
