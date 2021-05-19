@@ -28,6 +28,8 @@
 
     <Button
         android:text="@string/lesson"
+        android:padding="10dp"
+        android:background="@drawable/buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -41,7 +43,9 @@
 
     <Button
         android:layout_below="@id/lesson"
+        android:background="@drawable/buttons"
         android:text="@string/game1"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/game1"
@@ -54,7 +58,9 @@
 
     <Button
         android:layout_below="@id/game1"
+        android:background="@drawable/buttons"
         android:text="@string/game2"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/game2"
@@ -67,7 +73,9 @@
 
     <Button
         android:layout_below="@id/game2"
+        android:background="@drawable/buttons"
         android:text="@string/game3"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/game3"

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Gates</string>
-    <string name="lesson">lesson</string>
-    <string name="game1">game1</string>
+    <string name="lesson">Lesson</string>
+    <string name="game1">True or False</string>
     <string name="game2">game2</string>
     <string name="game3">game3</string>
     <string name="novice">novice</string>
