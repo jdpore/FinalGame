@@ -5,8 +5,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity"
-        android:id="@+id/loading"
->
+        android:id="@+id/loading">
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:src="@drawable/bg1"
+               android:scaleType="fitXY"/>
     <ProgressBar
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
