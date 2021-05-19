@@ -14,10 +14,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class activity_game_proper extends AppCompatActivity {
     TextView title, round;
-    LinearLayout columnOne;
+    LinearLayout columnOne, columnTwo, columnThree, columnFour, columnFive, column;
     ConstraintLayout popUp;
     Button[] btnGrp = new Button[7];
     int game, difficulty;
+    int[] coord = new int[2];
     String[] games = new String[] {"Lesson", "Game One", "Game Two", "Game Three"};
     String[] difficulties = new String[] {"novice", "intermediate", "advance"};
 
@@ -57,9 +58,8 @@ public class activity_game_proper extends AppCompatActivity {
         columnOne = findViewById(R.id.column_one);
         for(int i = 0; i < 7; i++) {
             Button btn = new Button(this);
-            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,
+            btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT,
                             1.0f));
-            btn.setHeight(0);
             btn.setText(String.valueOf(i));
             final int j = i;
             btn.setOnClickListener(new View.OnClickListener() {
