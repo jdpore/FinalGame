@@ -3,7 +3,6 @@ package com.example.gates;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
-import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(MainActivity.this, activity_games.class));
+                startActivity(new Intent(MainActivity.this, ActivityGames.class));
                 finish();
             }
         }, 3000);

@@ -5,8 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        tools:context=".activity_games"
-        android:id="@+id/games_layout">
+        tools:context=".ActivityGames">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,77 +13,85 @@
         android:scaleType="fitXY"
         android:src="@drawable/bg2"/>
 
-    <ImageView
-        android:id="@+id/logo"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:layout_marginHorizontal="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.2"
-        app:srcCompat="@drawable/gates_font" />
+        android:layout_height="match_parent"
+        android:id="@+id/games_layout">
 
-    <Button
-        android:text="@string/lesson"
-        android:padding="10dp"
-        android:background="@drawable/buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/lesson"
-        android:onClick="setLesson"
-        app:layout_constraintTop_toBottomOf="@id/logo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.2"/>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintDimensionRatio="w, 1:4"
+            app:srcCompat="@drawable/gates_font" />
 
-    <Button
-        android:layout_below="@id/lesson"
-        android:background="@drawable/buttons"
-        android:text="@string/game1"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/game1"
-        android:onClick="setGame1"
-        app:layout_constraintTop_toBottomOf="@id/lesson"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.1"/>
+        <Button
+            android:text="@string/lesson"
+            android:padding="10dp"
+            android:background="@drawable/buttons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/lesson"
+            android:onClick="setLesson"
+            app:layout_constraintTop_toBottomOf="@id/logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.2"/>
 
-    <Button
-        android:layout_below="@id/game1"
-        android:background="@drawable/buttons"
-        android:text="@string/game2"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/game2"
-        android:onClick="setGame2"
-        app:layout_constraintTop_toBottomOf="@id/lesson"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.3"/>
+        <Button
+            android:layout_below="@id/lesson"
+            android:background="@drawable/buttons"
+            android:text="@string/game1"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/game1"
+            android:onClick="setGame1"
+            app:layout_constraintTop_toBottomOf="@id/lesson"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.1"/>
 
-    <Button
-        android:layout_below="@id/game2"
-        android:background="@drawable/buttons"
-        android:text="@string/game3"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/game3"
-        android:onClick="setGame3"
-        app:layout_constraintTop_toBottomOf="@id/lesson"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.5"/>
+        <Button
+            android:layout_below="@id/game1"
+            android:background="@drawable/buttons"
+            android:text="@string/game2"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/game2"
+            android:onClick="setGame2"
+            app:layout_constraintTop_toBottomOf="@id/lesson"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.3"/>
+
+        <Button
+            android:layout_below="@id/game2"
+            android:background="@drawable/buttons"
+            android:text="@string/game3"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/game3"
+            android:onClick="setGame3"
+            app:layout_constraintTop_toBottomOf="@id/lesson"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.5"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--<RelativeLayout android:layout_width="match_parent"
         android:layout_height="match_parent"

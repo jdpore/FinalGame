@@ -6,12 +6,11 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-public class activity_games extends AppCompatActivity {
+public class ActivityGames extends AppCompatActivity {
     Button lesson, game1, game2, game3,
             novice, intermediate, advance;
     ConstraintLayout buttonsGame, buttonsDifficulty;
@@ -89,7 +88,7 @@ public class activity_games extends AppCompatActivity {
     }
 
     public void nextActivity() {
-        Intent intent = new Intent(this, activity_game_proper.class);
+        Intent intent = new Intent(this, ActivityGameProper.class);
         intent.putExtra("game", game);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
