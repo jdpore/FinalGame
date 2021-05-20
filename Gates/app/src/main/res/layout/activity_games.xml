@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/bg2"/>
+        android:src="@drawable/bg1_0"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.2"
             app:layout_constraintDimensionRatio="w, 1:4"
-            app:srcCompat="@drawable/gates_font" />
+            app:srcCompat="@drawable/gates_font_1" />
 
         <Button
             android:text="@string/lesson"
