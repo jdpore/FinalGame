@@ -2,6 +2,7 @@ package com.example.gates;
 
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -12,23 +13,25 @@ import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class ActivityGameProper extends AppCompatActivity {
     TextView title, round;
-    LinearLayout gameGrid;
-    LinearLayout[] columns = new LinearLayout[7];
+    LinearLayout gameGrid, choices;
     ConstraintLayout popUp;
-    Button[] btnGrp = new Button[7];
+    Button crntButton;
     int game,
-            difficulty = 0;
-    int[] coord = new int[2];
+            difficulty;
 
-    String[] games = new String[] {"Lesson", "Game One", "Game Two", "Game Three"};
-    String[] difficulties = new String[] {"novice", "intermediate", "advance"};
+    String[] games = new String[] {"Lesson", "True or False", "Game Two", "Game Three"};
+    int[][] control, stateArray;
 
-    Drawable[] bgArray = new Drawable[2],
-            stateArray = new Drawable[2];
-    int[][] control;
+    LinearLayout[] columns;
+    int[] gridTypeStatus;
+    Drawable[] bg;
+    Random rand = new Random();
+    TextView notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +40,9 @@ public class ActivityGameProper extends AppCompatActivity {
 
         title = findViewById(R.id.title);
         round = findViewById(R.id.round);
-        //popUp = findViewById(R.id.pop_up);
+        popUp = findViewById(R.id.pop_up);
         gameGrid = findViewById(R.id.game_grid);
-        GameBank bank = new GameBank();
-        control = bank.getProblem(difficulty, 0);
+        notification = findViewById(R.id.notif);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -58,80 +60,139 @@ public class ActivityGameProper extends AppCompatActivity {
 
         bgInit();
         statesInit();
-        gridInit();
-        layoutInit(control[2][0], control[1]);
+        gameInit();
 
-        gameGrid.setBackground(bgArray[control[0][0]]);
-
-
-        /*popUp.setOnClickListener(new View.OnClickListener() {
+        popUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 popUp.setVisibility(View.GONE);
+                gameInit();
             }
-        });*/
+        });
     }
 
-    public void layoutInit(int defState, int[] active) {
-        int counter = 0;
+    public void gameInit() {
+        GameBank bank = new GameBank();
+
+        ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+        if(gameList.size() == 1) {
+            difficulty++;
+            gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+        }
+        int key = rand.nextInt(4) + (difficulty * 4);
+        //gameList.remove(key);
+        control = bank.getProblem(game, 0);
+        layoutInit();
+        choicesInit();
+    }
+
+    public void layoutInit() {
+        columnInit();
+        gameGrid.setBackground(bg[control[0][0]]);
+        gridTypeStatus = new int[control[1].length];
+
+        int cntrGrid = 0;
+        int cntrType = 0;
         for(int i = 0; i < 7; i++) {
             for(int j = 0; j < 7; j++) {
                 Button btn = new Button(this);
+                int type = 0, state = 0;
+
+                btn.setEnabled(false);
+                btn.setBackground(getDrawable(stateArray[0][0]));
                 btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,
                         1.0f));
-                int temp = counter;
+                for(int n: control[1]) {
+                    if(n == cntrGrid) {
+                        type = control[2][cntrType];
+                        state = control[3][cntrType];
+                        if (control[4][cntrType] == 1) {
+                            btn.setEnabled(true);
+                        }
+                        btn.setBackground(getDrawable(stateArray[type][state]));
+                        gridTypeStatus[cntrType] = state;
+                        cntrType++;
+                    }
+                }
+
+                int tempType = type,
+                        tempState = state,
+                        tempCntr = cntrType - 1;
                 btn.setOnClickListener(new View.OnClickListener() {
-                    int crntState = defState;
                     public void onClick(View v) {
-                        if(crntState == 0) {crntState = 1;}
-                        else {crntState = 0;}
-                        setButton(btn, temp, crntState);
+                        Log.e("DEBUG:     ", "000");
+                        setButton(btn, tempCntr, tempType);
                     }
                 });
-                btn.setBackground(checkVisibility(counter, active, defState));
-                btn.setEnabled(checkEligibility(counter, active));
                 columns[i].addView(btn);
-                counter++;
+                cntrGrid++;
             }
         }
     }
 
-
-    public void setButton(Button btn, int coord, int state) {
-        btn.setBackground(stateArray[state]);
-        round.setText(String.valueOf(coord));
+    public void choicesInit() {
+        if(difficulty == 3) {
+            choices = findViewById(R.id.gates);
+        }
     }
 
-    public Drawable checkVisibility(int key, int[] active, int stateIndex) {
-        for(int n: active) {
-            if(n == key) {
-                return stateArray[stateIndex];
+    public void setButton(Button btn, int cntrType, int type) {
+        if(difficulty < 2) {
+            if(gridTypeStatus[cntrType] == 1) {
+                btn.setBackground(getDrawable(stateArray[type][2]));
+                gridTypeStatus[cntrType] = 2;
+            } else {
+                btn.setBackground(getDrawable(stateArray[type][1]));
+                gridTypeStatus[cntrType] = 1;
             }
         }
-        return getDrawable(R.drawable.blank);
     }
 
-    public boolean checkEligibility(int key, int[] active) {
-        for(int n: active) {
-            if(n == key) {
-                return true;
+    public void check(View view) {
+        Log.e("DEBUG:     ", "001");
+        popUp.setVisibility(View.VISIBLE);
+        String statement = "";
+        if(difficulty == 0) {
+            int status = gridTypeStatus[control[1].length-1];
+            Log.e("DEBUG_status:     ", String.valueOf(status));
+            if(status == control[5][0]) {
+                statement = "You're Right!!!";
+            } else {
+                statement = "You're Wrong.";
             }
         }
-        return false;
+
+        notification.setText(statement);
     }
 
 
 
     public void bgInit() {
-        bgArray[0] = getDrawable(R.drawable.play_bg_01);
-        bgArray[1] = getDrawable(R.drawable.play_bg_01);
+        bg = new Drawable[2];
+        bg[0] = getDrawable(R.drawable.circuit1);
+        bg[1] = getDrawable(R.drawable.play_bg_01);
     }
 
     public void statesInit() {
-        stateArray[0] = getDrawable(R.drawable.and);
-        stateArray[1] = getDrawable(R.drawable.xnor);
+        stateArray = new int[5][3];
+        stateArray[0][0] = R.drawable.blank;
+        stateArray[1][0] = R.drawable.a_blank;
+        stateArray[1][1] = R.drawable.a_true;
+        stateArray[1][2] = R.drawable.a_false;
+        stateArray[2][0] = R.drawable.b_blank;
+        stateArray[2][1] = R.drawable.b_true;
+        stateArray[2][2] = R.drawable.b_false;
+        stateArray[3][0] = R.drawable.c_blank;
+        stateArray[3][1] = R.drawable.c_true;
+        stateArray[3][2] = R.drawable.c_false;
+        stateArray[4][0] = R.drawable.q_blank;
+        stateArray[4][1] = R.drawable.q_true;
+        stateArray[4][2] = R.drawable.q_false;
+        //stateArray[9] = getDrawable(R.drawable.and);
+        //stateArray[10] = getDrawable(R.drawable.xnor);
     }
 
-    public void gridInit() {
+    public void columnInit() {
+        columns  = new LinearLayout[7];
         columns[0] = findViewById(R.id.column_one);
         columns[1] = findViewById(R.id.column_two);
         columns[2] = findViewById(R.id.column_three);

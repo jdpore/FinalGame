@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:text="Title"
         android:fontFamily="courier"
+        android:gravity="center"
         android:textColor="@color/black"
         android:textSize="48sp"
         android:textStyle="bold"
@@ -42,7 +43,7 @@
         app:layout_constraintVertical_bias="0.01"/>
 
     <LinearLayout
-        android:id="@+id/game_grid"
+        android:id="@+id/game_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="25dp"
@@ -52,89 +53,83 @@
         app:layout_constraintTop_toBottomOf="@+id/round"
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintVertical_bias="0.05"
-        android:weightSum="7">
+        android:background="@drawable/game_layout">
 
         <LinearLayout
-            android:id="@+id/column_one"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            android:id="@+id/game_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="7">
 
-        <LinearLayout
-            android:id="@+id/column_two"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/column_one"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/column_three"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/column_two"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/column_four"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/column_three"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/column_five"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/column_four"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/column_six"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/column_five"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/column_seven"
-            android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/column_six"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/column_seven"
+                android:layout_weight="1"
+                android:weightSum="7"
+                android:orientation="vertical"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/given"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="25dp"
-        android:fontFamily="courier"
-        android:text="Information"
-        android:textColor="@color/black"
-        android:textSize="32sp"
-        app:layout_constraintTop_toBottomOf="@id/game_grid"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.1"/>
-
     <LinearLayout
+        android:id="@+id/choices"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginHorizontal="25dp"
@@ -142,30 +137,71 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/given"
-        app:layout_constraintVertical_bias="0.2">
+        app:layout_constraintTop_toBottomOf="@id/game_layout"
+        app:layout_constraintVertical_bias="0.1">
+
+        <LinearLayout
+            android:id="@+id/gates"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="6"/>
 
     </LinearLayout>
 
-    <!--<androidx.constraintlayout.widget.ConstraintLayout
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="25dp"
+        android:fontFamily="courier"
+        android:text="Submit"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@id/choices"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        android:onClick="check"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pop_up"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#55000000">
+        android:background="#55000000"
+        android:visibility="gone"
+        android:translationZ="90dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="courier"
-            android:text="POP-UP"
-            android:textStyle="bold"
-            android:textColor="@color/black"
-            android:textSize="50sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="50dp"
+            android:layout_marginHorizontal="25dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/notification">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                <TextView
+                    android:id="@+id/notif"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="courier"
+                    android:text="POP-UP"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="50sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
