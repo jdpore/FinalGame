@@ -35,25 +35,24 @@ public class ActivityGames extends AppCompatActivity {
     }
 
     public void setLesson(View view) {
+        anim(buttonsGame);
+        startActivity(new Intent(ActivityGames.this, ActivityLesson.class));
+    }
+
+    public void setGame1(View view) {
         game = 0;
         anim(buttonsGame);
         nextActivity();
     }
 
-    public void setGame1(View view) {
+    public void setGame2(View view) {
         game = 1;
         anim(buttonsGame);
         nextActivity();
     }
 
-    public void setGame2(View view) {
-        game = 2;
-        anim(buttonsGame);
-        nextActivity();
-    }
-
     public void setGame3(View view) {
-        game = 3;
+        game = 2;
         anim(buttonsGame);
         nextActivity();
     }

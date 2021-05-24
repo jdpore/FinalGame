@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gates">
+        <activity android:name=".ActivityLesson"></activity>
         <activity android:name=".ActivityGameProper" />
         <activity android:name=".ActivityGames" />
         <activity android:name=".MainActivity">

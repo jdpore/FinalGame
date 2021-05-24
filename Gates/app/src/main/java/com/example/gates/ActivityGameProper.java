@@ -21,10 +21,12 @@ public class ActivityGameProper extends AppCompatActivity {
     LinearLayout gameGrid, choices;
     ConstraintLayout popUp;
     Button crntButton;
+    ArrayList<Button> buttons = new ArrayList<>();
+    ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
     int game,
             difficulty;
 
-    String[] games = new String[] {"Lesson", "True or False", "Game Two", "Game Three"};
+    String[] games = new String[] {"True or False: Output", "True or False: Input", "Gate Guess"};
     int[][] control, typeArray;
 
     LinearLayout[] columns;
@@ -48,7 +50,7 @@ public class ActivityGameProper extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
 
-        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .14f));
+        title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .1f));
         round.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .08f));
 
         Bundle extras = getIntent().getExtras();
@@ -65,22 +67,27 @@ public class ActivityGameProper extends AppCompatActivity {
         popUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 popUp.setVisibility(View.GONE);
+                for(int i = 0; i < 7; i++) {
+                    columns[i].removeAllViews();
+                }
                 gameInit();
             }
         });
     }
 
     public void gameInit() {
+        int key = rand.nextInt(gameList.size());
         GameBank bank = new GameBank();
 
-        ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         if(gameList.size() == 1) {
             difficulty++;
             gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
         }
-        int key = rand.nextInt(4) + (difficulty * 4);
-        //gameList.remove(key);
-        control = bank.getProblem(game, 1);
+
+        control = bank.getProblem(game, gameList.get(key) + (difficulty * 4));
+        gameList.remove(key);
+        Log.e("DEBUG: size  ", String.valueOf(gameList.size()));
+        Log.e("DEBUG: key  ", String.valueOf(key));
         layoutInit();
         choicesInit();
     }
@@ -95,21 +102,47 @@ public class ActivityGameProper extends AppCompatActivity {
         for(int i = 0; i < 7; i++) {
             for(int j = 0; j < 7; j++) {
                 Button btn = new Button(this);
-                int type = 0, state = 0;
+                int type = 0,
+                        state = 0;
 
                 btn.setEnabled(false);
                 btn.setBackground(getDrawable(typeArray[0][0]));
                 btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,
                         1.0f));
+
+                //check if Active Grid
                 for(int n: control[1]) {
                     if(n == cntrGrid) {
                         type = control[2][cntrType];
-                        state = control[3][cntrType];
-                        if (control[4][cntrType] == 1) {
-                            btn.setEnabled(true);
+                        switch (game) {
+                            case 0:
+                                if(type == 4) {
+                                    state = 2;
+                                } else {
+                                    state = rand.nextInt(2);
+                                }
+                                btn.setBackground(getDrawable(typeArray[type][state]));
+                                gridTypeStatus[cntrType] = state;
+                                if (cntrType == control[1].length - 1) {
+                                    btn.setEnabled(true);
+                                }
+                                break;
+                            case 1:
+                                if(type == 4) {
+                                    state = rand.nextInt(2);
+                                } else {
+                                    state = 2;
+                                }
+                                btn.setBackground(getDrawable(typeArray[type][state]));
+                                gridTypeStatus[cntrType] = state;
+                                if (cntrType != control[1].length) {
+                                    btn.setEnabled(true);
+                                }
+                                break;
+                            default:
+                                break;
                         }
-                        btn.setBackground(getDrawable(typeArray[type][state]));
-                        gridTypeStatus[cntrType] = state;
+
                         cntrType++;
                     }
                 }
@@ -117,12 +150,13 @@ public class ActivityGameProper extends AppCompatActivity {
                 int tempType = type,
                         tempState = state,
                         tempCntr = cntrType - 1;
+
                 btn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        Log.e("DEBUG:     ", "000");
                         setButton(btn, tempCntr, tempType);
                     }
                 });
+
                 columns[i].addView(btn);
                 cntrGrid++;
             }
@@ -130,14 +164,13 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void choicesInit() {
-        Log.e("DEBUG:     ", "002");
         if(game == 3) {
             choices = findViewById(R.id.choices);
             for(int i = 0; i < 6; i++) {
-                Log.e("DEBUG: i     ", String.valueOf(i));
                 Button btn = new Button(this);
                 btn.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,
                         1.0f));
+                //experiment
                 btn.setBackground(getDrawable(R.drawable.notification));
                 btn.setForeground(getDrawable(typeArray[5][i]));
                 choices.addView(btn);
@@ -148,8 +181,8 @@ public class ActivityGameProper extends AppCompatActivity {
     public void setButton(Button btn, int cntrType, int type) {
         if(difficulty < 2) {
             if(gridTypeStatus[cntrType] == 1) {
-                btn.setBackground(getDrawable(typeArray[type][2]));
-                gridTypeStatus[cntrType] = 2;
+                btn.setBackground(getDrawable(typeArray[type][0]));
+                gridTypeStatus[cntrType] = 0;
             } else {
                 btn.setBackground(getDrawable(typeArray[type][1]));
                 gridTypeStatus[cntrType] = 1;
@@ -158,28 +191,30 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void check(View view) {
-        Log.e("DEBUG:     ", "001");
-        popUp.setVisibility(View.VISIBLE);
-        String statement = "";
-        if(difficulty == 0) {
-            int status = gridTypeStatus[control[1].length-1];
-            Log.e("DEBUG_status:     ", String.valueOf(status));
-            if(status == control[5][0]) {
-                statement = "You're Right!!!";
-            } else {
-                statement = "You're Wrong.";
-            }
-        }
+        int length = control[1].length;
+        boolean[] types = new boolean[length];
 
-        notification.setText(statement);
+        if(game == 0 || game == 1) {
+            //convert from int to boolean
+            for(int i = 0; i < length; i++) {
+                types[i] = gridTypeStatus[i] == 1;
+            }
+            checkQ(types);
+        }
     }
 
 
 
     public void bgInit() {
-        bg = new Drawable[2];
+        bg = new Drawable[8];
         bg[0] = getDrawable(R.drawable.circuit1);
         bg[1] = getDrawable(R.drawable.circuit2);
+        bg[2] = getDrawable(R.drawable.circuit3);
+        bg[3] = getDrawable(R.drawable.circuit4);
+        bg[4] = getDrawable(R.drawable.circuit5);
+        bg[5] = getDrawable(R.drawable.circuit6);
+        bg[6] = getDrawable(R.drawable.circuit7);
+        bg[7] = getDrawable(R.drawable.circuit8);
     }
 
     public void gridTypeInit() {
@@ -203,8 +238,6 @@ public class ActivityGameProper extends AppCompatActivity {
         typeArray[5][3] = R.drawable.nor;
         typeArray[5][4] = R.drawable.xor;
         typeArray[5][5] = R.drawable.xnor;
-        //stateArray[9] = getDrawable(R.drawable.and);
-        //stateArray[10] = getDrawable(R.drawable.xnor);
     }
 
     public void columnInit() {
@@ -216,6 +249,56 @@ public class ActivityGameProper extends AppCompatActivity {
         columns[4] = findViewById(R.id.column_five);
         columns[5] = findViewById(R.id.column_six);
         columns[6] = findViewById(R.id.column_seven);
+    }
+
+    public void checkQ(boolean[] logic) {
+        int inputs = logic.length - 1;
+        int numbGates = control[3][0];
+        int[][] instructions = new int[numbGates][];
+        ArrayList<Boolean> states = new ArrayList<>();
+
+        //get input states
+        for(int i = 0; i < inputs; i++) {
+            states.add(logic[i]);
+        }
+
+        //get Control Numbers for Gate Instructions
+        //numbGates -> number of gates = number of instructions
+        for(int i = 0; i < numbGates; i++) {
+            instructions[i] = control[i+4];
+        }
+
+        for(int[] i: instructions) {
+            int gate = i[0];
+            switch (gate) {
+                case 0: states.add(states.get(i[1]) && states.get(i[2]));
+                    break;
+                case 1: states.add(states.get(i[1]) || states.get(i[2]));
+                    break;
+                case 2: states.add(!(states.get(i[1]) && states.get(i[2])));
+                    break;
+                case 3: states.add(!(states.get(i[1]) || states.get(i[2])));
+                    break;
+                case 4: states.add((states.get(i[1]) || states.get(i[2])) &&
+                        (!states.get(i[1]) || !states.get(i[2])));
+                    break;
+                case 5: states.add((states.get(i[1]) && states.get(i[2])) ||
+                        (!states.get(i[1]) && !states.get(i[2])));
+                    break;
+                case 6: states.add(!states.get(i[1]));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        popUp.setVisibility(View.VISIBLE);
+
+        if(states.get(states.size()-1) == logic[logic.length-1]) {
+            notification.setText(String.valueOf("Right"));
+        } else {
+            notification.setText(String.valueOf("Wrong"));
+        }
     }
 
 
