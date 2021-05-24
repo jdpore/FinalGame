@@ -25,7 +25,7 @@ public class ActivityGameProper extends AppCompatActivity {
             difficulty;
 
     String[] games = new String[] {"Lesson", "True or False", "Game Two", "Game Three"};
-    int[][] control, stateArray;
+    int[][] control, typeArray;
 
     LinearLayout[] columns;
     int[] gridTypeStatus;
@@ -59,7 +59,7 @@ public class ActivityGameProper extends AppCompatActivity {
         }
 
         bgInit();
-        statesInit();
+        gridTypeInit();
         gameInit();
 
         popUp.setOnClickListener(new View.OnClickListener() {
@@ -80,7 +80,7 @@ public class ActivityGameProper extends AppCompatActivity {
         }
         int key = rand.nextInt(4) + (difficulty * 4);
         //gameList.remove(key);
-        control = bank.getProblem(game, 0);
+        control = bank.getProblem(game, 1);
         layoutInit();
         choicesInit();
     }
@@ -98,7 +98,7 @@ public class ActivityGameProper extends AppCompatActivity {
                 int type = 0, state = 0;
 
                 btn.setEnabled(false);
-                btn.setBackground(getDrawable(stateArray[0][0]));
+                btn.setBackground(getDrawable(typeArray[0][0]));
                 btn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,
                         1.0f));
                 for(int n: control[1]) {
@@ -108,7 +108,7 @@ public class ActivityGameProper extends AppCompatActivity {
                         if (control[4][cntrType] == 1) {
                             btn.setEnabled(true);
                         }
-                        btn.setBackground(getDrawable(stateArray[type][state]));
+                        btn.setBackground(getDrawable(typeArray[type][state]));
                         gridTypeStatus[cntrType] = state;
                         cntrType++;
                     }
@@ -130,18 +130,28 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void choicesInit() {
-        if(difficulty == 3) {
-            choices = findViewById(R.id.gates);
+        Log.e("DEBUG:     ", "002");
+        if(game == 3) {
+            choices = findViewById(R.id.choices);
+            for(int i = 0; i < 6; i++) {
+                Log.e("DEBUG: i     ", String.valueOf(i));
+                Button btn = new Button(this);
+                btn.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT,
+                        1.0f));
+                btn.setBackground(getDrawable(R.drawable.notification));
+                btn.setForeground(getDrawable(typeArray[5][i]));
+                choices.addView(btn);
+            }
         }
     }
 
     public void setButton(Button btn, int cntrType, int type) {
         if(difficulty < 2) {
             if(gridTypeStatus[cntrType] == 1) {
-                btn.setBackground(getDrawable(stateArray[type][2]));
+                btn.setBackground(getDrawable(typeArray[type][2]));
                 gridTypeStatus[cntrType] = 2;
             } else {
-                btn.setBackground(getDrawable(stateArray[type][1]));
+                btn.setBackground(getDrawable(typeArray[type][1]));
                 gridTypeStatus[cntrType] = 1;
             }
         }
@@ -169,24 +179,30 @@ public class ActivityGameProper extends AppCompatActivity {
     public void bgInit() {
         bg = new Drawable[2];
         bg[0] = getDrawable(R.drawable.circuit1);
-        bg[1] = getDrawable(R.drawable.play_bg_01);
+        bg[1] = getDrawable(R.drawable.circuit2);
     }
 
-    public void statesInit() {
-        stateArray = new int[5][3];
-        stateArray[0][0] = R.drawable.blank;
-        stateArray[1][0] = R.drawable.a_blank;
-        stateArray[1][1] = R.drawable.a_true;
-        stateArray[1][2] = R.drawable.a_false;
-        stateArray[2][0] = R.drawable.b_blank;
-        stateArray[2][1] = R.drawable.b_true;
-        stateArray[2][2] = R.drawable.b_false;
-        stateArray[3][0] = R.drawable.c_blank;
-        stateArray[3][1] = R.drawable.c_true;
-        stateArray[3][2] = R.drawable.c_false;
-        stateArray[4][0] = R.drawable.q_blank;
-        stateArray[4][1] = R.drawable.q_true;
-        stateArray[4][2] = R.drawable.q_false;
+    public void gridTypeInit() {
+        typeArray = new int[6][6];
+        typeArray[0][0] = R.drawable.blank;
+        typeArray[1][0] = R.drawable.a_false;
+        typeArray[1][1] = R.drawable.a_true;
+        typeArray[1][2] = R.drawable.a_blank;
+        typeArray[2][0] = R.drawable.b_false;
+        typeArray[2][1] = R.drawable.b_true;
+        typeArray[2][2] = R.drawable.b_blank;
+        typeArray[3][0] = R.drawable.c_false;
+        typeArray[3][1] = R.drawable.c_true;
+        typeArray[3][2] = R.drawable.c_blank;
+        typeArray[4][0] = R.drawable.q_false;
+        typeArray[4][1] = R.drawable.q_true;
+        typeArray[4][2] = R.drawable.q_blank;
+        typeArray[5][0] = R.drawable.and;
+        typeArray[5][1] = R.drawable.or;
+        typeArray[5][2] = R.drawable.nand;
+        typeArray[5][3] = R.drawable.nor;
+        typeArray[5][4] = R.drawable.xor;
+        typeArray[5][5] = R.drawable.xnor;
         //stateArray[9] = getDrawable(R.drawable.and);
         //stateArray[10] = getDrawable(R.drawable.xnor);
     }

@@ -138,14 +138,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/game_layout"
-        app:layout_constraintVertical_bias="0.1">
+        app:layout_constraintVertical_bias="0.1"
+        android:orientation="horizontal"
+        android:weightSum="6">
 
-        <LinearLayout
-            android:id="@+id/gates"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:weightSum="6"/>
 
     </LinearLayout>
 
