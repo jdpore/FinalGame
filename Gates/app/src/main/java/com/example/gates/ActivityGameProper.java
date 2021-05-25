@@ -11,20 +11,22 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import pl.droidsonroids.gif.GifImageView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class ActivityGameProper extends AppCompatActivity {
-    TextView title, round;
+    TextView title, round, reminder;
     LinearLayout gameGrid, choices;
     ConstraintLayout popUp;
     Button crntButton;
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    GifImageView notifGIF;
     int game,
-            difficulty;
+            difficulty = 0;
 
     String[] games = new String[] {"True or False: Output", "True or False: Input", "Gate Guess"};
     int[][] control, typeArray;
@@ -33,7 +35,6 @@ public class ActivityGameProper extends AppCompatActivity {
     int[] gridTypeStatus;
     Drawable[] bg;
     Random rand = new Random();
-    TextView notification;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +43,11 @@ public class ActivityGameProper extends AppCompatActivity {
 
         title = findViewById(R.id.title);
         round = findViewById(R.id.round);
+        reminder = findViewById(R.id.reminder);
         popUp = findViewById(R.id.pop_up);
         gameGrid = findViewById(R.id.game_grid);
-        notification = findViewById(R.id.notif);
+        notifGIF = findViewById(R.id.notif_gif);
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -52,6 +55,7 @@ public class ActivityGameProper extends AppCompatActivity {
 
         title.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .1f));
         round.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .08f));
+        reminder.setTextSize(TypedValue.COMPLEX_UNIT_PX, (width * .04f));
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
@@ -70,6 +74,8 @@ public class ActivityGameProper extends AppCompatActivity {
                 for(int i = 0; i < 7; i++) {
                     columns[i].removeAllViews();
                 }
+                round.setText(String.valueOf("Round #"  +
+                        (Integer.parseInt(round.getText().toString().substring(7)) + 1)));
                 gameInit();
             }
         });
@@ -86,8 +92,6 @@ public class ActivityGameProper extends AppCompatActivity {
 
         control = bank.getProblem(game, gameList.get(key) + (difficulty * 4));
         gameList.remove(key);
-        Log.e("DEBUG: size  ", String.valueOf(gameList.size()));
-        Log.e("DEBUG: key  ", String.valueOf(key));
         layoutInit();
         choicesInit();
     }
@@ -135,7 +139,7 @@ public class ActivityGameProper extends AppCompatActivity {
                                 }
                                 btn.setBackground(getDrawable(typeArray[type][state]));
                                 gridTypeStatus[cntrType] = state;
-                                if (cntrType != control[1].length) {
+                                if (cntrType != control[1].length - 1) {
                                     btn.setEnabled(true);
                                 }
                                 break;
@@ -179,7 +183,7 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void setButton(Button btn, int cntrType, int type) {
-        if(difficulty < 2) {
+        if(game < 2) {
             if(gridTypeStatus[cntrType] == 1) {
                 btn.setBackground(getDrawable(typeArray[type][0]));
                 gridTypeStatus[cntrType] = 0;
@@ -194,6 +198,22 @@ public class ActivityGameProper extends AppCompatActivity {
         int length = control[1].length;
         boolean[] types = new boolean[length];
 
+        popUp.setVisibility(View.VISIBLE);
+
+        if(game == 0 && gridTypeStatus[length-1] == 2) {
+            Log.e("Debug:       ", "Invalid Input");
+            notifGIF.setBackgroundResource(R.drawable.nice_try);
+            return;
+        } else if(game == 1) {
+            for(int i = 0; i < length-1; i++) {
+                if(gridTypeStatus[i] == 2) {
+                    Log.e("Debug:       ", "Invalid Input");
+                    notifGIF.setBackgroundResource(R.drawable.nice_try);
+                    return;
+                }
+            }
+        }
+
         if(game == 0 || game == 1) {
             //convert from int to boolean
             for(int i = 0; i < length; i++) {
@@ -206,7 +226,7 @@ public class ActivityGameProper extends AppCompatActivity {
 
 
     public void bgInit() {
-        bg = new Drawable[8];
+        bg = new Drawable[12];
         bg[0] = getDrawable(R.drawable.circuit1);
         bg[1] = getDrawable(R.drawable.circuit2);
         bg[2] = getDrawable(R.drawable.circuit3);
@@ -215,6 +235,10 @@ public class ActivityGameProper extends AppCompatActivity {
         bg[5] = getDrawable(R.drawable.circuit6);
         bg[6] = getDrawable(R.drawable.circuit7);
         bg[7] = getDrawable(R.drawable.circuit8);
+        bg[8] = getDrawable(R.drawable.circuit9);
+        bg[9] = getDrawable(R.drawable.circuit10);
+        bg[10] = getDrawable(R.drawable.circuit11);
+        bg[11] = getDrawable(R.drawable.circuit12);
     }
 
     public void gridTypeInit() {
@@ -292,12 +316,13 @@ public class ActivityGameProper extends AppCompatActivity {
             }
         }
 
-        popUp.setVisibility(View.VISIBLE);
-
+        Log.e("Debug: Q       ", String.valueOf(states.get(states.size()-1)));
         if(states.get(states.size()-1) == logic[logic.length-1]) {
-            notification.setText(String.valueOf("Right"));
+            //notification.setText(String.valueOf("Right"));
+            notifGIF.setBackgroundResource(R.drawable.good_job);
         } else {
-            notification.setText(String.valueOf("Wrong"));
+            //notification.setText(String.valueOf("Wrong"));
+            notifGIF.setBackgroundResource(R.drawable.nice_try);
         }
     }
 

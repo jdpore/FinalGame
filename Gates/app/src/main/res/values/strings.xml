@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Gates</string>
     <string name="lesson">Lesson</string>
-    <string name="game1">True or False</string>
-    <string name="game2">game2</string>
-    <string name="game3">game3</string>
+    <string name="game1">True or False: Output</string>
+    <string name="game2">True or False: Input</string>
+    <string name="game3">GG</string>
     <string name="novice">novice</string>
     <string name="intermediate">intermediate</string>
     <string name="advanced">advanced</string>
+    <string name="title">Title</string>
+    <string name="round">Round #1</string>
+    <string name="pop_up">POP-UP</string>
+    <string name="press_anywhere">Press Anywhere To Continue</string>
 </resources>
