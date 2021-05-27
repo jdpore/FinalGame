@@ -1,6 +1,7 @@
 package com.example.gates;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,10 +9,13 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    MediaPlayer intro_music;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        intro_music = MediaPlayer.create(MainActivity.this,R.raw.intro_sound);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -21,6 +25,11 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }, 3000);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        intro_music.start();
     }
 
     @Override

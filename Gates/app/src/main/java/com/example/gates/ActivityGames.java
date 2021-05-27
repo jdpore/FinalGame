@@ -1,6 +1,7 @@
 package com.example.gates;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,63 +16,35 @@ public class ActivityGames extends AppCompatActivity {
             novice, intermediate, advance;
     ConstraintLayout buttonsGame, buttonsDifficulty;
     int game, difficulty;
+    MediaPlayer music_pick_game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_games);
-        /*lesson = findViewById(R.id.lesson);
-        game1 = findViewById(R.id.game1);
-        game2 = findViewById(R.id.game2);
-        game3 = findViewById(R.id.game3);
-        novice = findViewById(R.id.novice);
-        intermediate = findViewById(R.id.intermediate);
-        advance = findViewById(R.id.advance);*/
-
         buttonsGame = findViewById(R.id.games_layout);
-        //buttonsDifficulty = findViewById(R.id.buttons_difficulty);
+        music_pick_game = MediaPlayer.create(ActivityGames.this,R.raw.music_pick_game);
 
-        //buttonsDifficulty.setVisibility(View.GONE);
     }
 
     public void setLesson(View view) {
         anim(buttonsGame);
         startActivity(new Intent(ActivityGames.this, ActivityLesson.class));
+        music_pick_game.start();
     }
 
     public void setGame1(View view) {
         game = 0;
-        anim(buttonsGame);
         nextActivity();
     }
 
     public void setGame2(View view) {
         game = 1;
-        anim(buttonsGame);
         nextActivity();
     }
 
     public void setGame3(View view) {
         game = 2;
-        anim(buttonsGame);
-        nextActivity();
-    }
-
-    public void setNovice(View view) {
-        difficulty = 0;
-        //anim(buttonsDifficulty, buttonsGame);
-        nextActivity();
-    }
-
-    public void setIntermediate(View view) {
-        difficulty = 1;
-        //anim(buttonsDifficulty, buttonsGame);
-        nextActivity();
-    }
-
-    public void setAdvance(View view) {
-        difficulty = 2;
-        //anim(buttonsDifficulty, buttonsGame);
         nextActivity();
     }
 
@@ -94,10 +67,13 @@ public class ActivityGames extends AppCompatActivity {
             @Override
             public void run() {
                 //intent.putExtra("difficulty", difficulty);
+                anim(buttonsGame);
                 startActivity(intent);
+                music_pick_game.start();
             }
         }, 200);
     }
+
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

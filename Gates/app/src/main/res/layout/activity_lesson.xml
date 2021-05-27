@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ActivityLesson">
 
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:src="@drawable/bg1_0"
+               android:scaleType="fitXY"/>
+
     <ImageView
         android:id="@+id/img_lesson"
         android:layout_width="match_parent"

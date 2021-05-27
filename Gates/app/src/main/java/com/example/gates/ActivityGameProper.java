@@ -3,6 +3,7 @@ package com.example.gates;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -23,11 +24,13 @@ public class ActivityGameProper extends AppCompatActivity {
     TextView title, round, reminder, score;
     LinearLayout gameGrid, choices;
     ConstraintLayout popUp;
-    Button crntButton;
+    Button crntButton, submit;
+    MediaPlayer bg_music, music_pick_ans, music_win, music_lose, music_end_game;
     Button[] btnChoices;
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
     GifImageView notifGIF;
+
     int game,
             difficulty = 0,
             btnStates,
@@ -56,6 +59,14 @@ public class ActivityGameProper extends AppCompatActivity {
         notifGIF = findViewById(R.id.notif_gif);
         choices = findViewById(R.id.choices);
         score = findViewById(R.id.score);
+        submit = findViewById(R.id.submit);
+        bg_music = MediaPlayer.create(ActivityGameProper.this,R.raw.bg_music);
+        music_pick_ans = MediaPlayer.create(ActivityGameProper.this,R.raw.music_pick_ans);
+        music_win = MediaPlayer.create(ActivityGameProper.this,R.raw.music_win);
+        music_lose = MediaPlayer.create(ActivityGameProper.this,R.raw.music_lose);
+        music_end_game = MediaPlayer.create(ActivityGameProper.this,R.raw.music_end_game);
+
+        music_pick_ans.setVolume(100, 50);
 
         crntButton = new Button(this);
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -84,8 +95,11 @@ public class ActivityGameProper extends AppCompatActivity {
         popUp.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 popUp.setVisibility(View.GONE);
+                bg_music.start();
+                submit.setEnabled(false);
                 if(game < 2 && cntrRound == 10) {
                     startActivity(new Intent(ActivityGameProper.this, ActivityGames.class));
+                    music_pick_ans.start();
                 } else if(game == 3) {
 
                 }
@@ -214,7 +228,9 @@ public class ActivityGameProper extends AppCompatActivity {
 
     public void setButton(Button btn, int cntrIO, int cntrGate, int IO) {
         if(game < 2) {
+            submit.setEnabled(true);
             if(gridIOStatus[cntrIO] == 1) {
+
                 //change button display from true to false
                 btn.setBackground(getDrawable(gridTypes[IO][0]));
                 gridIOStatus[cntrIO] = 0;
@@ -252,6 +268,7 @@ public class ActivityGameProper extends AppCompatActivity {
             int finalI = i;
             btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    submit.setEnabled(true);
                     crntButton.setForeground(getDrawable(gridTypes[5][finalI]));
                     gridGateStatus[cntrGate] = finalI;
                     if(btnStates == 1) {
@@ -263,7 +280,6 @@ public class ActivityGameProper extends AppCompatActivity {
                     btnStates = 1;
                 }
             });
-
             choices.addView(btn);
             btnChoices[i] = btn;
         }
@@ -275,18 +291,20 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void check(View view) {
+        music_pick_ans.start();
         int length = control[1].length;
-
         popUp.setVisibility(View.VISIBLE);
 
         if(game == 0 && gridIOStatus[length-1] == 2) {
             notifGIF.setBackgroundResource(R.drawable.nice_try);
+            music_lose.start();
             nextGame();
             return;
         } else if(game == 1) {
             for(int i = 0; i < length-1; i++) {
                 if(gridIOStatus[i] == 2) {
                     notifGIF.setBackgroundResource(R.drawable.nice_try);
+                    music_lose.start();
                     nextGame();
                     return;
                 }
@@ -296,6 +314,7 @@ public class ActivityGameProper extends AppCompatActivity {
                 if(i == 7) {
                     notifGIF.setBackgroundResource(R.drawable.nice_try);
                     nextGame();
+                    music_lose.start();
                     return;
                 }
             }
@@ -418,16 +437,20 @@ public class ActivityGameProper extends AppCompatActivity {
             //notification.setText(String.valueOf("Right"));
             cntrWin++;
             notifGIF.setBackgroundResource(R.drawable.good_job);
+            bg_music.pause();
+            music_win.start();
         } else {
             //notification.setText(String.valueOf("Wrong"));
             notifGIF.setBackgroundResource(R.drawable.nice_try);
+            bg_music.pause();
+            music_lose.start();
         }
-
         nextGame();
     }
 
     public void nextGame() {
         if(game < 2 && cntrRound == 10) {
+            music_end_game.start();
             score.setVisibility(View.VISIBLE);
             score.setText(String.valueOf("Final Score: " + cntrWin));
         } else {
@@ -435,6 +458,16 @@ public class ActivityGameProper extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        bg_music.pause();
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        bg_music.start();
+    }
 
 
     @Override
