@@ -8,7 +8,7 @@
     <string name="intermediate">intermediate</string>
     <string name="advanced">advanced</string>
     <string name="title">Title</string>
-    <string name="round">Round #1</string>
+    <string name="round">Round #0</string>
     <string name="pop_up">POP-UP</string>
     <string name="press_anywhere">Press Anywhere To Continue</string>
 </resources>
