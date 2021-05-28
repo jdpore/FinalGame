@@ -54,6 +54,7 @@ public class ActivityLesson extends AppCompatActivity {
                 int finalCount = count;
                 btn.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
+                        nextPrev.setText(String.valueOf("Next"));
                         lessonInit(finalCount);
                         for(int i: btnStates) {
                             if (i == 1) {
