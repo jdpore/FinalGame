@@ -99,7 +99,7 @@ public class ActivityGameProper extends AppCompatActivity {
                 bg_music.start();
                 enableSubmit(false);
                 if(cntrRound == 10) {
-                    startActivity(new Intent(ActivityGameProper.this, ActivityGames.class));
+                    finish();
                     music_pick_ans.start();
                 }
                 cntrRound++;
@@ -108,11 +108,14 @@ public class ActivityGameProper extends AppCompatActivity {
 
         switch (game) {
             case 0:
-                instruction.setBackgroundResource(R.drawable.intruction0);
+                instruction.setBackgroundResource(R.drawable.instruction0);
+                break;
             case 1:
-                instruction.setBackgroundResource(R.drawable.intruction1);
+                instruction.setBackgroundResource(R.drawable.instruction1);
+                break;
             case 2:
-                instruction.setBackgroundResource(R.drawable.intruction2);
+                instruction.setBackgroundResource(R.drawable.instruction2);
+                break;
         }
 
         columnInit();
