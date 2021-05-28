@@ -163,7 +163,6 @@ public class ActivityGameProper extends AppCompatActivity {
                 state = 0;
         gridIOStatus = new int[length];
         gridGateStatus = new int[control[2][0]];
-        Log.e("Debug: length       ", String.valueOf(control[2][0]));
 
         //clear choices Layout
         if(game == 2) {choices.removeAllViews();}
@@ -306,7 +305,6 @@ public class ActivityGameProper extends AppCompatActivity {
                     btn.setBackground(getDrawable(R.drawable.gates_selected));
                     btnStates = 1;
 
-                    Log.e("Debug: length       ", Arrays.toString(gridGateStatus));
                     enableSubmit(true);
                     for(int i: gridGateStatus) {
                         if(i == 7) {
@@ -319,7 +317,6 @@ public class ActivityGameProper extends AppCompatActivity {
 
             same = false;
             for(int a: gridGateStatus) {
-                Log.e("Debug: a       ", String.valueOf(a));
                 if(a == i) {
                     same = true;
                     break;
