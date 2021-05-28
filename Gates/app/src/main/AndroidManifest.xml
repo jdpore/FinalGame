@@ -9,10 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Gates">
-        <activity android:name=".ActivityLesson"></activity>
-        <activity android:name=".ActivityGameProper" />
-        <activity android:name=".ActivityGames" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ActivityLesson"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityGameProper"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityGames"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

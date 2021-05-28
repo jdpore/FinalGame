@@ -11,4 +11,7 @@
     <string name="round">Round #0</string>
     <string name="pop_up">POP-UP</string>
     <string name="press_anywhere">Press Anywhere To Continue</string>
+    <string name="submit">Submit</string>
+    <string name="next">Next</string>
+    <string name="prev">Prev</string>
 </resources>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,7 @@ public class ActivityGameProper extends AppCompatActivity {
     Button[] btnChoices;
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<Integer> gameList = new ArrayList<>(Arrays.asList(0, 1, 2, 3));
+    ImageView instruction;
     GifImageView notifGIF;
 
     int game,
@@ -60,6 +62,8 @@ public class ActivityGameProper extends AppCompatActivity {
         choices = findViewById(R.id.choices);
         score = findViewById(R.id.score);
         submit = findViewById(R.id.submit);
+        instruction = findViewById(R.id.instruction);
+
         bg_music = MediaPlayer.create(ActivityGameProper.this,R.raw.bg_music);
         music_pick_ans = MediaPlayer.create(ActivityGameProper.this,R.raw.music_pick_ans);
         music_win = MediaPlayer.create(ActivityGameProper.this,R.raw.music_win);
@@ -69,6 +73,7 @@ public class ActivityGameProper extends AppCompatActivity {
         music_pick_ans.setVolume(100, 50);
 
         crntButton = new Button(this);
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int width = displayMetrics.widthPixels;
@@ -87,26 +92,33 @@ public class ActivityGameProper extends AppCompatActivity {
             title.setText(str);
         }
 
+        popUp.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                instruction.setVisibility(View.GONE);
+                popUp.setVisibility(View.GONE);
+                bg_music.start();
+                enableSubmit(false);
+                if(cntrRound == 10) {
+                    startActivity(new Intent(ActivityGameProper.this, ActivityGames.class));
+                    music_pick_ans.start();
+                }
+                cntrRound++;
+            }
+        });
+
+        switch (game) {
+            case 0:
+                instruction.setBackgroundResource(R.drawable.intruction0);
+            case 1:
+                instruction.setBackgroundResource(R.drawable.intruction1);
+            case 2:
+                instruction.setBackgroundResource(R.drawable.intruction2);
+        }
+
         columnInit();
         bgInit();
         gridTypeInit();
         gameInit();
-
-        popUp.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                popUp.setVisibility(View.GONE);
-                bg_music.start();
-                submit.setEnabled(false);
-                if(game < 2 && cntrRound == 10) {
-                    startActivity(new Intent(ActivityGameProper.this, ActivityGames.class));
-                    music_pick_ans.start();
-                } else if(game == 3) {
-
-                }
-                cntrRound++;
-                Log.e("Debug: cntrGate        ", String.valueOf(cntrRound));
-            }
-        });
     }
 
     public void gameInit() {
@@ -147,7 +159,8 @@ public class ActivityGameProper extends AppCompatActivity {
         int type = 1,
                 state = 0;
         gridIOStatus = new int[length];
-        gridGateStatus = new int[control[control.length - 1].length];
+        gridGateStatus = new int[control[2][0]];
+        Log.e("Debug: length       ", String.valueOf(control[2][0]));
 
         //clear choices Layout
         if(game == 2) {choices.removeAllViews();}
@@ -204,9 +217,13 @@ public class ActivityGameProper extends AppCompatActivity {
                 if(game == 2) {
                     for (int n: control[control.length - 1]) {
                         if(n == cntrGrid) {
-                            btn.setBackground(getDrawable(gridTypes[0][1]));
-                            btn.setEnabled(true);
-                            gridGateStatus[cntrGates++] = 7;
+                            if(control[cntrGates+3][0] != 6) {
+                                btn.setBackground(getDrawable(gridTypes[0][1]));
+                                btn.setEnabled(true);
+                                gridGateStatus[cntrGates++] = 7;
+                            } else {
+                                gridGateStatus[cntrGates++] = 8;
+                            }
                         }
                     }
                 }
@@ -228,9 +245,7 @@ public class ActivityGameProper extends AppCompatActivity {
 
     public void setButton(Button btn, int cntrIO, int cntrGate, int IO) {
         if(game < 2) {
-            submit.setEnabled(true);
             if(gridIOStatus[cntrIO] == 1) {
-
                 //change button display from true to false
                 btn.setBackground(getDrawable(gridTypes[IO][0]));
                 gridIOStatus[cntrIO] = 0;
@@ -238,6 +253,15 @@ public class ActivityGameProper extends AppCompatActivity {
                 //change button display from blank/false to true
                 btn.setBackground(getDrawable(gridTypes[IO][1]));
                 gridIOStatus[cntrIO] = 1;
+                enableSubmit(true);
+                if(game == 1) {
+                    for(int i: gridIOStatus) {
+                        if(i == 2) {
+                            enableSubmit(false);
+                            break;
+                        }
+                    }
+                }
             }
         } else {
             //change button (grid) background to selected mode
@@ -255,6 +279,7 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void choicesInit(int cntrGate) {
+        boolean same;
         btnChoices = new Button[6];
         btnStates = 0;
         for(int i = 0; i < 6; i++) {
@@ -268,7 +293,6 @@ public class ActivityGameProper extends AppCompatActivity {
             int finalI = i;
             btn.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
-                    submit.setEnabled(true);
                     crntButton.setForeground(getDrawable(gridTypes[5][finalI]));
                     gridGateStatus[cntrGate] = finalI;
                     if(btnStates == 1) {
@@ -278,25 +302,45 @@ public class ActivityGameProper extends AppCompatActivity {
                     }
                     btn.setBackground(getDrawable(R.drawable.gates_selected));
                     btnStates = 1;
+
+                    Log.e("Debug: length       ", Arrays.toString(gridGateStatus));
+                    enableSubmit(true);
+                    for(int i: gridGateStatus) {
+                        if(i == 7) {
+                            enableSubmit(false);
+                            break;
+                        }
+                    }
                 }
             });
-            choices.addView(btn);
+
+            same = false;
+            for(int a: gridGateStatus) {
+                Log.e("Debug: a       ", String.valueOf(a));
+                if(a == i) {
+                    same = true;
+                    break;
+                }
+            }
+            if(!same) {
+                choices.addView(btn);
+            }
             btnChoices[i] = btn;
         }
 
-        if(gridGateStatus[cntrGate] != 7) {
-            Log.e("Debug: cntrGate        ", String.valueOf(cntrGate));
+        if(gridGateStatus[cntrGate] < 7) {
             btnChoices[gridGateStatus[cntrGate]].setBackground(getDrawable(R.drawable.gates_selected));
         }
     }
 
     public void check(View view) {
-        music_pick_ans.start();
+        //music_pick_ans.start();
         int length = control[1].length;
         popUp.setVisibility(View.VISIBLE);
 
-        if(game == 0 && gridIOStatus[length-1] == 2) {
+        /*if(game == 0 && gridIOStatus[length-1] == 2) {
             notifGIF.setBackgroundResource(R.drawable.nice_try);
+            bg_music.pause();
             music_lose.start();
             nextGame();
             return;
@@ -304,6 +348,7 @@ public class ActivityGameProper extends AppCompatActivity {
             for(int i = 0; i < length-1; i++) {
                 if(gridIOStatus[i] == 2) {
                     notifGIF.setBackgroundResource(R.drawable.nice_try);
+                    bg_music.pause();
                     music_lose.start();
                     nextGame();
                     return;
@@ -313,17 +358,27 @@ public class ActivityGameProper extends AppCompatActivity {
             for(int i: gridGateStatus) {
                 if(i == 7) {
                     notifGIF.setBackgroundResource(R.drawable.nice_try);
-                    nextGame();
+                    bg_music.pause();
                     music_lose.start();
+                    nextGame();
                     return;
                 }
             }
-        }
+        }*/
 
         checkQ();
     }
 
-
+    public void enableSubmit(boolean state) {
+        submit.setEnabled(state);
+        if(state) {
+            submit.setBackground(getDrawable(R.drawable.btn));
+            submit.setTextColor(Color.BLACK);
+        } else {
+            submit.setBackground(getDrawable(R.drawable.btn_disabled));
+            submit.setTextColor(Color.WHITE);
+        }
+    }
 
     public void bgInit() {
         bg = new Drawable[16];
@@ -386,7 +441,7 @@ public class ActivityGameProper extends AppCompatActivity {
         boolean[] logics = new boolean[length];
         int inputs = length - 1;
         int numbGates = control[2][0];
-        int[][] instructions;
+        int[][] instructions = new int[numbGates][];
         ArrayList<Boolean> states = new ArrayList<>();
 
         //convert from int to boolean
@@ -401,7 +456,6 @@ public class ActivityGameProper extends AppCompatActivity {
 
         //get Control Numbers for Gate Instructions
         //numbGates -> number of gates = number of instructions
-        instructions = new int[numbGates][];
         for(int i = 0; i < numbGates; i++) {
             instructions[i] = control[i + 3];
             if(game == 2 && instructions[i][0] != 6) {
@@ -449,7 +503,7 @@ public class ActivityGameProper extends AppCompatActivity {
     }
 
     public void nextGame() {
-        if(game < 2 && cntrRound == 10) {
+        if(cntrRound == 10) {
             music_end_game.start();
             score.setVisibility(View.VISIBLE);
             score.setText(String.valueOf("Final Score: " + cntrWin));
